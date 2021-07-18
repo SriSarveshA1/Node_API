@@ -1,6 +1,6 @@
 const express=require('express');
 const app=express();
-const postRoutes=require('./routes/post')
+const postRoutes=require('./routes/post');
 const morgan=require('morgan');
 app.use(morgan("dev"));
 app.get('/',postRoutes);
