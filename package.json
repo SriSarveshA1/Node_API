@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/SriSarveshA1/Node_API/issues"
   },
-  "homepage": "https://github.com/SriSarveshA1/Node_API#readme"
+  "homepage": "https://github.com/SriSarveshA1/Node_API#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
