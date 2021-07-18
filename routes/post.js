@@ -1,7 +1,6 @@
+const express=require('express');
+const router=express.Router();//express.Router() is a class and the variable router is an object that
+const postController=require('../controllers/post');
 
-const getPosts=(req,res) => {
-    res.send("Get post respond");
-}
-
-module.exports={getPosts}
-
+router.get('/',postController.getPost);
+module.exports = router;

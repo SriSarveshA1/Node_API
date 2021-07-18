@@ -1,9 +1,9 @@
 const express=require('express');
 const app=express();
-const {getPosts}=require('./routes/post')
+const postRoutes=require('./routes/post')
 const morgan=require('morgan');
 app.use(morgan("dev"));
-app.get('/',getPosts);
+app.get('/',postRoutes);
 
 
 const port =3000;
