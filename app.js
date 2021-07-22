@@ -3,6 +3,7 @@ const app=express();
 const postRoutes=require('./routes/post');
 const mongoose=require('mongoose');
 const bodyParser=require('body-parser');
+const expressValidator=require('express-validator');
 const dotenv=require('dotenv');
 dotenv.config();
 
@@ -14,11 +15,12 @@ mongoose.connection.on("error",(err)=>{
 
 const morgan=require('morgan');
 app.use(morgan("dev"));
-app.use(bodyParser.json())
+app.use(bodyParser.json());
+app.use(expressValidator());
 
 
 
-app.get('/',postRoutes);
+app.get('/get',postRoutes);
 app.post('/post',postRoutes)
 
 const port =process.env.PORT||3000;//So either in production environment we set the port(in .env file we set the port) or default 3000 is the port
