@@ -2,6 +2,7 @@ const express=require('express');
 const app=express();
 const postRoutes=require('./routes/post');
 const mongoose=require('mongoose');
+const bodyParser=require('body-parser');
 const dotenv=require('dotenv');
 dotenv.config();
 
@@ -13,8 +14,12 @@ mongoose.connection.on("error",(err)=>{
 
 const morgan=require('morgan');
 app.use(morgan("dev"));
-app.get('/',postRoutes);
+app.use(bodyParser.json())
 
+
+
+app.get('/',postRoutes);
+app.post('/post',postRoutes)
 
 const port =process.env.PORT||3000;//So either in production environment we set the port(in .env file we set the port) or default 3000 is the port
 app.listen(port,()=>{
