@@ -14,14 +14,8 @@ exports.createPostValidator=(req,res,next)=>{
     {
         console.log("entered da dai 1");
         const firstError=errors.map((error)=>error.msg)[0];
-           
-           
-           console.log(firstError);
-           
-           return res.status(400).json({error:firstError});
-             
-       
-        
+        console.log(firstError);
+        return res.status(400).json({error:firstError}); 
     }
     next();//so after this validator(it does the validation) the control goes to the create post and post will be created and all kind of validation is done here and while saiving the post no need to check for the errors
 }
