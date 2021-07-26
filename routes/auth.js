@@ -6,5 +6,6 @@ const {createSignUpValidator}=require('../validator/index')
 
 router.post('/signup',createSignUpValidator,AuthSignup.signup);
 router.post('/signin',AuthSignup.signin);
+router.get('/signout',AuthSignup.signout);
 module.exports = router;
  

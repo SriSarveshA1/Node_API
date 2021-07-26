@@ -26,6 +26,7 @@ app.get('/get',postRoutes);
 app.post('/post',postRoutes)
 app.post('/signup',authRoutes); 
 app.post('/signin',authRoutes);
+app.get('/signout',authRoutes);
 
 const port =process.env.PORT||3000;//So either in production environment we set the port(in .env file we set the port) or default 3000 is the port
 app.listen(port,()=>{

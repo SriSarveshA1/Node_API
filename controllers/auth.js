@@ -52,7 +52,12 @@ const signin=(req,res)=>{
     return res.json({token,user:{_id,name,email}}); // we send the whole object that consists of token and the user object inside which we have _id,name,email
 
   });
-}
+  }
 
-module.exports={signup,signin};
+  const signout=(req,res)=>{
+   res.clearCookie("t");//we stored the token as t so we are clearing that particular token from the responce cookie
+   return res.json({message:"Signout successful"});//after clearing it we just send the response
+  }
+
+module.exports={signup,signin,signout};
   
