@@ -44,6 +44,9 @@ const userSchema=new mongoose.Schema({
  //methods
  //The schemas that we define can have multiple properties and including it can have methods inside which we can define what ever methods we want
  userSchema.methods={
+   authenticate: function(password){
+     return this.encrypted_password(password)==this.hashed_password;
+   },
    encrypted_password:function(password){//this method gets the plain password
        if(!password)
        {
