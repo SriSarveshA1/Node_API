@@ -22,7 +22,7 @@ app.use(expressValidator());
 app.use(cookieParser()) 
 
 
-app.get('/get',postRoutes);
+app.get('/getPosts',postRoutes);
 app.post('/post',postRoutes)
 app.post('/signup',authRoutes); 
 app.post('/signin',authRoutes);

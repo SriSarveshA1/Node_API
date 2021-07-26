@@ -1,5 +1,6 @@
 const User=require('../models/user');//we have imported the user model from using which we can create a new user or sign up
 const jwt=require('jsonwebtoken');
+const expressJwt=require('express-jwt');//the expressJwt will be used to protect routes
 require('dotenv').config();//to work with env files and the variables we created in the .env file
 
 const signup= async (req, res) => //we are making this function as asynchronous so that inside the function if there is await keyword the below code will be blocked.
@@ -59,5 +60,11 @@ const signin=(req,res)=>{
    return res.json({message:"Signout successful"});//after clearing it we just send the response
   }
 
-module.exports={signup,signin,signout};
+const requireSignin=expressJwt({
+  secret:process.env.JWT_SECRET,
+  algorithms: ['HS256']
+});
+
+
+module.exports={signup,signin,signout,requireSignin};
   
