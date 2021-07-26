@@ -27,6 +27,11 @@ app.post('/post',postRoutes)
 app.post('/signup',authRoutes); 
 app.post('/signin',authRoutes);
 app.get('/signout',authRoutes);
+app.use(function (err, req, res, next) {
+    if (err.name === 'UnauthorizedError') {
+      res.status(401).json({message: 'Unauthorized!'});
+    }
+  });
 
 const port =process.env.PORT||3000;//So either in production environment we set the port(in .env file we set the port) or default 3000 is the port
 app.listen(port,()=>{
