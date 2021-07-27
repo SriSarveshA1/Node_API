@@ -42,4 +42,11 @@ const allUsers=(req,res)=>{
        res.json({users})
     }).select("name email updated created")//so we want to retrive these properties(name,email,updated,created) specifically 
 }
-module.exports={userById,hasAuthorization,allUsers};
+
+const getUser=(req,res)=>{
+    //we are going to select a single user and return his profile
+    req.profile.hashed_password=undefined;
+    req.profile.salt=undefined;
+    return res.json(req.profile);// we know that when a request url is made based on getting the particular user profile there will be userId in the url and we need to retrive the user object from the router.param('userId',UserById) here in the UserById method the req.profile=user will be attached
+}
+module.exports={userById,hasAuthorization,allUsers,getUser};

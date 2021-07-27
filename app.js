@@ -30,6 +30,9 @@ app.post('/signup',authRoutes);
 app.post('/signin',authRoutes);
 app.get('/signout',authRoutes);
 app.get('/users',UserRoutes); 
+app.get('/user/:userId',UserRoutes); 
+
+
 app.use(function (err, req, res, next) {
     if (err.name === 'UnauthorizedError') {
       res.status(401).json({message: 'Unauthorized!'});
