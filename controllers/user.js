@@ -18,5 +18,18 @@ const userByid=(req,res,next,id)=>{
 
     })
 }
+const hasAuthorization=(req,res,next) =>{
 
-module.exports={userByid};
+    const authorized=req.profile&&req.auth&&req.profile._id===req.auth._id;
+    //               step 1       step 2    combnining both(step1 & step2)
+    //In above statement gives true then the user who is requsting is authorized
+    if(!authorized)
+    { // if the user is not authorized
+        return res.status(403).json({
+            error:"User is not authorized to perform this action"
+        })  
+    }
+
+
+}
+module.exports={userByid,hasAuthorization};
