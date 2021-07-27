@@ -6,10 +6,10 @@ const {userById} = require('../controllers/user');
 
 const validator=require('../validator/index')
 
-router.get('/getPosts',requireSignin,postController.getPost);//this particular route can be accessed if and only if we have the required JWT that contains the secret key 
-router.post('/post',validator.createPostValidator,postController.createPost);
+router.get('/getPosts',postController.getPost);//this particular route can be accessed if and only if we have the required JWT that contains the secret key 
+router.post('/post',requireSignin,validator.createPostValidator,postController.createPost);
 
 //so from the user.js from the controllers we are getting the userById function and that will be executed when the request url has the userId parameter
-router.param('userId',userById);
+router.param("userId",userById);
 
 module.exports = router;

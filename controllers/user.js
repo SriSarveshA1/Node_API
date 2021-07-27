@@ -1,6 +1,6 @@
 const User=require('../models/user');
 
-const userByid=(req,res,next,id)=>{
+const userById=(req,res,next,id)=>{
 
     //Here we are finding the user with respect to the id that we got from the request url
     //And while executing the retrival part of the userInfo based on id ..and the callback function will be containing the err , user object ..if the retrival is successful we get the user object or as a err.
@@ -32,4 +32,4 @@ const hasAuthorization=(req,res,next) =>{
 
 
 }
-module.exports={userByid,hasAuthorization};
+module.exports={userById,hasAuthorization};
