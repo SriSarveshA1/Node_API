@@ -32,7 +32,7 @@ app.get('/signout',authRoutes);
 app.get('/users',UserRoutes); 
 app.get('/user/:userId',UserRoutes); 
 app.put('/user/:userId',UserRoutes); 
-
+app.delete('/user/:userId',UserRoutes);
 
 app.use(function (err, req, res, next) {
     if (err.name === 'UnauthorizedError') {

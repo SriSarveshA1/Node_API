@@ -74,4 +74,21 @@ const updateUser=(req,res,next) => {
        
    });
 }
-module.exports={userById,hasAuthorization,allUsers,getUser,updateUser};
+
+const deleteUser =(req,res,next)=>{
+    let user=req.profile;//so when the request url contains the userid then UserById method will be invoked before itself
+    user.remove((err,user)=>{
+        if(err)
+        {
+            //if there is any error occured thn we are sending that error as a response
+            return res.status(400).json({err});
+        }
+
+        //if we are able to delete successfully then we send the deleted user
+        user.hashed_password=undefined;
+        user.salt=undefined;
+        res.json({user});
+    })
+}
+
+module.exports={userById,hasAuthorization,allUsers,getUser,updateUser,deleteUser};
