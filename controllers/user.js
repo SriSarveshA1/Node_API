@@ -29,7 +29,17 @@ const hasAuthorization=(req,res,next) =>{
             error:"User is not authorized to perform this action"
         })  
     }
-
-
 }
-module.exports={userById,hasAuthorization};
+const allUsers=(req,res)=>{
+    //so here the find method is going to all the users that we created using signup method and it has a callback() that gets err,users object..if there is a error that occoured this err will have some value or users parameter gets all the users object
+    User.find((err,users)=>{
+       if(err){
+           return res.status(400).json({
+               error:err
+           })
+       }
+       //if there is no error 
+       res.json({users})
+    }).select("name email updated created")//so we want to retrive these properties(name,email,updated,created) specifically 
+}
+module.exports={userById,hasAuthorization,allUsers};

@@ -2,6 +2,8 @@ const express=require('express');
 const app=express();
 const postRoutes=require('./routes/post');
 const authRoutes=require('./routes/auth');
+const UserRoutes=require('./routes/user');
+
 const mongoose=require('mongoose');
 var cookieParser = require('cookie-parser')
 
@@ -27,6 +29,7 @@ app.post('/post',postRoutes)
 app.post('/signup',authRoutes); 
 app.post('/signin',authRoutes);
 app.get('/signout',authRoutes);
+app.get('/users',UserRoutes); 
 app.use(function (err, req, res, next) {
     if (err.name === 'UnauthorizedError') {
       res.status(401).json({message: 'Unauthorized!'});
