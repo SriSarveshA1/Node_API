@@ -1,4 +1,5 @@
 const User=require('../models/user');
+const _=require('lodash');
 
 const userById=(req,res,next,id)=>{
 
@@ -49,4 +50,28 @@ const getUser=(req,res)=>{
     req.profile.salt=undefined;
     return res.json(req.profile);// we know that when a request url is made based on getting the particular user profile there will be userId in the url and we need to retrive the user object from the router.param('userId',UserById) here in the UserById method the req.profile=user will be attached
 }
-module.exports={userById,hasAuthorization,allUsers,getUser};
+
+const updateUser=(req,res,next) => {
+   
+   let user=req.profile;//so the req.profile contains the profile of the user with the given respective id in the url
+   user=_.extend(user,req.body)//this extend metho  d gets the object that needs to be updated and the new content that we want to put
+   //extend method basically mutate the sourse object with the content present in the req.bodyParser    
+   //so when the user update their profile we want the updated date to be today
+   user.updated=Date.now();
+   //with the new change we need to store the new user object in the database
+   user.save((err)=>{
+       if(err){
+           return res.status(400).json({
+               error:"You are not authorized to perform this action"
+           })
+       }
+       //if there is no error while saving then we send the response as user object
+       //and we should not the hashed password or salt value
+       
+       user.hashed_password=undefined;
+       user.salt=undefined;
+       res.json({user});
+       
+   });
+}
+module.exports={userById,hasAuthorization,allUsers,getUser,updateUser};
