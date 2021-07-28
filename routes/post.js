@@ -1,6 +1,6 @@
 const express=require('express');
 const router=express.Router();//express.Router() is a class and the variable router is an object that
-const {getPost,createPost,postsByUser,postById,isPoster,deletePost}=require('../controllers/post');
+const {getPost,createPost,postsByUser,postById,isPoster,deletePost,updatePost}=require('../controllers/post');
 const {requireSignin}=require('../controllers/auth');
 const {userById} = require('../controllers/user');
 
@@ -12,6 +12,7 @@ router.post('/post/new/:userId',requireSignin,createPost,createPostValidator);
 router.get("/posts/by/:userId",requireSignin,postsByUser);
 router.get('/',getPost);//this particular route can be accessed if and only if we have the required JWT that contains the secret key 
 router.delete('/post/:postId',requireSignin,isPoster,deletePost);//so here the user who is trying to delete the post should be logged in and should be the same person who created the post and then we call deletpost 
+router.put('/post/:postId',requireSignin,isPoster,updatePost);//so for the new update of the post with the given post id in the url we update the post and the authenticated user should be the same who created it
 
 //so from the user.js from the controllers we are getting the userById function and that will be executed when the request url has the userId parameter
 router.param("userId",userById);

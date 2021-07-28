@@ -1,6 +1,7 @@
 const Post=require('../models/post');
 const formidable=require('formidable');
 const fs = require('fs');
+const _= require('lodash');
 
 
 const getPost=(req,res)=>{
@@ -115,4 +116,19 @@ const deletePost =(req,res)=>{
    });
 };
 
-module.exports={getPost,createPost,postsByUser,postById,isPoster,deletePost}; 
+const updatePost=(req,res,next) => {
+   let post=req.post;
+   post=_.extend(post,req.body);//so we are mutating the current post with the req.body(new content)
+   post.updated=Date.now();//after updating we change the updated date as current date
+   post.save((err,post)=>{
+       if(err)
+       {
+          return res.json(400).json({error:err});
+       }
+       //no error send the updated post
+       res.json(post);
+   })
+  
+}
+
+module.exports={getPost,createPost,postsByUser,postById,isPoster,deletePost,updatePost}; 

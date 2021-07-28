@@ -23,6 +23,7 @@ app.use(bodyParser.json());
 app.use(expressValidator());
 app.use(cookieParser()) 
 
+app.put('/post/:postId',postRoutes);
 app.delete("/post/:postId",postRoutes);
 app.get("/posts/by/:userId",postRoutes);
 app.post('/post/new/:userId',postRoutes)
