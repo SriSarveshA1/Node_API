@@ -1,6 +1,6 @@
 const express=require('express');
 const router=express.Router();//express.Router() is a class and the variable router is an object that
-const {getPost,createPost,postsByUser}=require('../controllers/post');
+const {getPost,createPost,postsByUser,postById}=require('../controllers/post');
 const {requireSignin}=require('../controllers/auth');
 const {userById} = require('../controllers/user');
 
@@ -15,5 +15,7 @@ router.get('/',getPost);//this particular route can be accessed if and only if w
 //so from the user.js from the controllers we are getting the userById function and that will be executed when the request url has the userId parameter
 router.param("userId",userById);
 
+
+router.param("postId",postById);//so when ever the request url contains the id of the post then we get the id and call the postById method which will create this req.post=post(that we got from the particular id)
+
 module.exports = router;
-    

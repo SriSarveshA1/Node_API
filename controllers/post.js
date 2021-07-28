@@ -12,6 +12,25 @@ const getPost=(req,res)=>{
     
 
   };
+const postById=(req,res,next,id)=>{
+  //we are going to find the post based on the id that we pass in the request url
+  Post.findById(id)
+  .populate("postedBy","_id name")
+  //after doing the above methods this exec function will be executed
+  .exec((err,post)=>{
+     
+      if(err||!post)
+      {
+         return res.status(400).json({
+            error:err
+         })
+      }
+      //if there is no error while finding the post by id then
+      //then we append a new property like post in the request object and assign post object to it
+      req.post=post;
+      next();//then we will move to next middleware
+   })
+}
 
 const createPost = (req, res,next) => {
 
@@ -66,4 +85,4 @@ const postsByUser =(req,res) => {
       res.json(posts);
    });
 }
-module.exports={getPost,createPost,postsByUser}; 
+module.exports={getPost,createPost,postsByUser,postById}; 
