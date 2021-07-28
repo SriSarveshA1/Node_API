@@ -32,6 +32,8 @@ const postById=(req,res,next,id)=>{
    })
 }
 
+
+
 const createPost = (req, res,next) => {
 
    let form=new formidable.IncomingForm();//we are creating object for this method/constructor fomidable.IncomingForm()  this will give incoming form fields 
@@ -85,4 +87,32 @@ const postsByUser =(req,res) => {
       res.json(posts);
    });
 }
-module.exports={getPost,createPost,postsByUser,postById}; 
+
+const isPoster =(req,res,next)=>{
+  let isPoster =req.post&&req.auth&&req.post.postedBy._id== req.auth._id;
+ 
+  if(!isPoster) {
+     return res.status(403).json({error:"User not authorized to perform this operation."});
+  }
+  next();//we are moving to next middleware
+}
+
+const deletePost =(req,res)=>{
+   let post = req.post ;//so when ever there is a postId parameter in the url then the postById method will be invoked and the post object will be appened to the req object
+   post.remove((err,post)=>{
+      //if there is error while removing the post we catch it or send the deleted post as json response or give a message
+      if(err)
+      {
+         return res.status(400).json(
+            {
+               error:err
+            }
+         )
+      }
+      res.json({
+         message:"Post Deleted successfully"
+      })
+   });
+};
+
+module.exports={getPost,createPost,postsByUser,postById,isPoster,deletePost}; 
