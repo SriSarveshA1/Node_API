@@ -48,9 +48,22 @@ const createPost = (req, res,next) => {
          
          res.json(result);
       })
-
-
    });
-   
    }
-module.exports={getPost,createPost}; 
+
+const postsByUser =(req,res) => {
+   Post.find({postedBy:req.profile._id})
+   .populate("postedBy","_id name")//we are going to put the user id and the name along with the posts that that particular user posted 
+   .sort("_created")
+   //after executing all the abouve chain functions
+   .exec((err,posts)=>{
+      if(err){
+         return res.json({
+            error:err
+         })
+      }
+      //if there is no error we send the json response of the posts
+      res.json(posts);
+   });
+}
+module.exports={getPost,createPost,postsByUser}; 

@@ -24,7 +24,7 @@ app.use(expressValidator());
 app.use(cookieParser()) 
 
 
-
+app.get("/posts/by/:userId",postRoutes);
 app.post('/post/new/:userId',postRoutes)
 app.post('/signup',authRoutes); 
 app.post('/signin',authRoutes);
