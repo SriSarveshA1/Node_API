@@ -25,7 +25,7 @@ app.use(cookieParser())
 
 
 app.get('/getPosts',postRoutes);
-app.post('/post',postRoutes)
+app.post('/post/new/:userId',postRoutes)
 app.post('/signup',authRoutes); 
 app.post('/signin',authRoutes);
 app.get('/signout',authRoutes);
