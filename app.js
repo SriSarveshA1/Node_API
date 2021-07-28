@@ -24,7 +24,7 @@ app.use(expressValidator());
 app.use(cookieParser()) 
 
 
-app.get('/getPosts',postRoutes);
+
 app.post('/post/new/:userId',postRoutes)
 app.post('/signup',authRoutes); 
 app.post('/signin',authRoutes);
@@ -33,6 +33,7 @@ app.get('/users',UserRoutes);
 app.get('/user/:userId',UserRoutes); 
 app.put('/user/:userId',UserRoutes); 
 app.delete('/user/:userId',UserRoutes);
+app.get('/',postRoutes);//default route which will get all the posts like a news feed
 
 app.use(function (err, req, res, next) {
     if (err.name === 'UnauthorizedError') {
