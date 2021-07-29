@@ -4,6 +4,7 @@ const postRoutes=require('./routes/post');
 const authRoutes=require('./routes/auth');
 const UserRoutes=require('./routes/user');
 const fs=require('fs');
+const cors=require('cors');
 
 const mongoose=require('mongoose');
 var cookieParser = require('cookie-parser')
@@ -23,6 +24,7 @@ app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(expressValidator());
 app.use(cookieParser()) 
+app.use(cors());
 
 app.get("/",(req,res)=>{
   //we are going to read the file that is in the path
