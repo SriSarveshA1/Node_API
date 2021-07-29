@@ -10,7 +10,7 @@ const {createPostValidator}=require('../validator/index')
 router.post('/post/new/:userId',requireSignin,createPost,createPostValidator);
 
 router.get("/posts/by/:userId",requireSignin,postsByUser);
-router.get('/',getPost);//this particular route can be accessed if and only if we have the required JWT that contains the secret key 
+router.get('/posts',getPost);//this particular route can be accessed if and only if we have the required JWT that contains the secret key 
 router.delete('/post/:postId',requireSignin,isPoster,deletePost);//so here the user who is trying to delete the post should be logged in and should be the same person who created the post and then we call deletpost 
 router.put('/post/:postId',requireSignin,isPoster,updatePost);//so for the new update of the post with the given post id in the url we update the post and the authenticated user should be the same who created it
 

@@ -3,6 +3,7 @@ const app=express();
 const postRoutes=require('./routes/post');
 const authRoutes=require('./routes/auth');
 const UserRoutes=require('./routes/user');
+const fs=require('fs');
 
 const mongoose=require('mongoose');
 var cookieParser = require('cookie-parser')
@@ -23,6 +24,20 @@ app.use(bodyParser.json());
 app.use(expressValidator());
 app.use(cookieParser()) 
 
+app.get("/",(req,res)=>{
+  //we are going to read the file that is in the path
+  fs.readFile("docs/apiDocs.json",(err,data)=>{
+    if(err){
+      
+      return  res.status(400).json({
+         error:err
+      });
+
+    }
+    const docs = JSON.parse(data);
+    res.json(docs);
+  })
+})
 app.put('/post/:postId',postRoutes);
 app.delete("/post/:postId",postRoutes);
 app.get("/posts/by/:userId",postRoutes);
@@ -34,7 +49,7 @@ app.get('/users',UserRoutes);
 app.get('/user/:userId',UserRoutes); 
 app.put('/user/:userId',UserRoutes); 
 app.delete('/user/:userId',UserRoutes);
-app.get('/',postRoutes);//default route which will get all the posts like a news feed
+app.get('/posts',postRoutes);//default route which will get all the posts like a news feed
 
 app.use(function (err, req, res, next) {
     if (err.name === 'UnauthorizedError') {
