@@ -40,7 +40,7 @@ const allUsers=(req,res)=>{
            })
        }
        //if there is no error 
-       res.json({users})
+       res.json(users)
     }).select("name email updated created")//so we want to retrive these properties(name,email,updated,created) specifically 
 }
 
