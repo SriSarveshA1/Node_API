@@ -16,6 +16,10 @@ router.get("/user/:userId", requireSignin, getUser);//to retrive a single user a
 router.put("/user/:userId", requireSignin, updateUser);//To update the profile we use put method that updates the user profile with the new content in the request body 
 router.delete("/user/:userId", requireSignin, deleteUser);// we use this delete method of http request to delete the user
 
+//to get the photo
+router.get("/user/photo/:userId",userPhoto);
+
+
 // any route containing :userId, our app will first execute userByID()
 router.param("userId", userById);
 

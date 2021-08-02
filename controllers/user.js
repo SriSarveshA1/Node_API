@@ -88,6 +88,16 @@ exports.updateUser=(req,res,next)=>{
     })  
 }
 
+exports.userPhoto=(req,res,next)=>{//this is basically a middleware and after calling this fuction the control goes to some other part
+    if(req.profile.photo.data){//so when there is a userId in the param the userById method will run and the user object is put it into the req.profile
+     //if the req.profile has photo which means the user has already uploaded a profile image
+      res.set("Content-Type",req.profile.photo.contentType);//we are setting the content type in the response we are going to send
+      return res.send(req.profile.photo.data);//so we need to send the photo as the response
+    }
+    //if the photo is not uploaded in the profile 
+    next();//we call the next() that will pass on the controller 
+}
+
 exports.deleteUser = (req, res, next) => {
     let user = req.profile;//so when the request url contains the userid then UserById method will be invoked before itself
     user.remove((err, user) => {
