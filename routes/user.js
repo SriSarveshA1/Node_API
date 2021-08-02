@@ -4,6 +4,7 @@ const {
     allUsers,
     getUser,
     updateUser,
+    userPhoto,
     deleteUser
 } = require("../controllers/user");
 const { requireSignin } = require("../controllers/auth");
