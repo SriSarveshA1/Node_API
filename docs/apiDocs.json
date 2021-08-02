@@ -1,15 +1,12 @@
 {
-    "/":"get all the posts",
-    "/post/:postId" :"update post",
-    "/post/:postId":"delete post",
-    "/posts/by/:userId":"Get different posts posted by a user",
-    "/post/new/:userId":"Create a new post and the user info will also be stored in the post",
-    "/signup" :"signup",
-    "/signin":"signin",
-    "/signout":"signout",
-    "/users":"Get all the users",
-    "/user/:userId":"Get User",
-    "/user/:userId":"Update User", 
-    "/user/:userId":"Delete User", 
-    "/posts":"Get all the posts"
+        "/": "api docs",
+        "/signup": "signup",
+        "/signin": "signin",
+        "/signout": "signout",
+        "/users": "get all users",
+        "/user/:userId": "get/update/delete user",
+        "/posts": "get all posts",
+        "/post/new/:userId": "create new post",
+        "/posts/by/:userId": "get posts by user",
+        "/post/:postId": "update/delete post"
 }
