@@ -22,7 +22,11 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: Date.now//by default we use to get the current date using this method
     },
-    updated: Date
+    updated: Date,
+    photo:{
+        data:Buffer,//we store the image in binary format 
+        contentType:String//stores the format of the image
+    }
 });
 
 /**

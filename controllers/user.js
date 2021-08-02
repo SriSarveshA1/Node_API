@@ -1,5 +1,7 @@
 const _ = require("lodash");
 const User = require("../models/user");
+const formidable = require("formidable");
+const fs = require("fs");
 
 exports.userById = (req, res, next, id) => {
     //Here we are finding the user with respect to the id that we got from the request url
@@ -50,27 +52,41 @@ exports.getUser = (req, res) => {
     return res.json(req.profile);// we know that when a request url is made based on getting the particular user profile there will be userId in the url and we need to retrive the user object from the router.param('userId',UserById) here in the UserById method the req.profile=user will be attached
 };
 
-exports.updateUser = (req, res, next) => {
-    let user = req.profile;//so the req.profile contains the profile of the user with the given respective id in the url
-    user = _.extend(user, req.body); //this extend metho  d gets the object that needs to be updated and the new content that we want to put
-   //extend method basically mutate the sourse object with the content present in the req.bodyParser    
-   //so when the user update their profile we want the updated date to be today
-    user.updated = Date.now();
-    
-   //with the new change we need to store the new user object in the database
-    user.save(err => {
-        if (err) {
+
+
+exports.updateUser=(req,res,next)=>{
+    let form=new formidable.IncomingForm();
+    form.keepExtensions=true;
+    form.parse(req,(err,fields,files)=>{//we parse the form data that takes the req data and in call back functions we are going to work with the fields and files
+        if(err)
+        {
             return res.status(400).json({
-                error: "You are not authorized to perform this action"
-            });
+                error:"Photo could not be uploaded"
+            })
         }
-        //if there is no error while saving then we send the response as user object
-       //and we should not the hashed password or salt value
-        user.hashed_password = undefined;
-        user.salt = undefined;
-        res.json({ user });
-    });
-};
+        //save user
+        let user=req.profile;//so when the url has the user id then params will catch and userById method will be invoked and req.profile will contain the user object
+        user=_.extend(user,fields);//so we are updating the data in the user object when we update the user
+        user.updated=Date.now();//storing the current date
+        if(files.photo)
+        {
+            //if there is a photo in the files is true we put it in the user object
+            user.photo.data=fs.readFileSync(files.photo.path);
+            user.photo.contentType=files.photo.type;
+        }
+        user.save((err,result)=>{
+          if(err)
+          {
+              return res.status(400).json({
+                  error:err
+              })
+          }
+          user.hashed_password=undefined;
+          user.salt=undefined;
+          res.json(user);
+        })
+    })  
+}
 
 exports.deleteUser = (req, res, next) => {
     let user = req.profile;//so when the request url contains the userid then UserById method will be invoked before itself
