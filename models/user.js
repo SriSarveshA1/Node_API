@@ -26,7 +26,12 @@ const userSchema = new mongoose.Schema({
     photo:{
         data:Buffer,//we store the image in binary format 
         contentType:String//stores the format of the image
+    },
+    about:{
+        type:String,
+        trim:true
     }
+
 });
 
 /**

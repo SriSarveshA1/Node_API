@@ -7,6 +7,7 @@ const {
     userPhoto,
     deleteUser
 } = require("../controllers/user");
+
 const { requireSignin } = require("../controllers/auth");
 
 const router = express.Router();//express.Router() is a class and the variable router is an object that
