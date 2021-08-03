@@ -182,3 +182,19 @@ result.salt = undefined;
 res.json(result);
 });
 };
+
+
+
+exports.findPeople=(req,res)=>{
+    let following=req.profile.following;
+    following.push(req.profile._id);//so we are pushing the user who we are visiting even that users profile is pushed into the following list 
+    User.find({_id:{$nin:following}},(err,users)=>{//so we are going to find the users id whom we are not following (we do that by not incuding sign $nin will disincule the object we pass)
+        if(err){
+            return res.status(400).json({error:err})
+        }
+        
+            //we are going to send the list of users
+            res.json(users);
+    }).select('name');//while returning the properties we are just going to select the name alone of the user and display in the suggestion
+
+}

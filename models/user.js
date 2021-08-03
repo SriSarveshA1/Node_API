@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema({
         type:String,
         trim:true
     },
-    following:[{type:ObjectId,ref:"User"}],  //so the following list will contain many users of USER objectId and each user object is type ObjectIds
+    followers:[{type:ObjectId,ref:"User"}],  //so the following list will contain many users of USER objectId and each user object is type ObjectIds
     following:[{type:ObjectId,ref:"User"}]
 });
 
