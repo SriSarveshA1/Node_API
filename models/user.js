@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const uuidv1 = require("uuid/v1");
 const crypto = require("crypto");
+const { ObjectId}=mongoose.Schema;//so this ObjectId is a part of mongoose.Schema
+
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -30,8 +32,9 @@ const userSchema = new mongoose.Schema({
     about:{
         type:String,
         trim:true
-    }
-
+    },
+    following:[{type:ObjectId,ref:"User"}],  //so the following list will contain many users of USER objectId and each user object is type ObjectIds
+    following:[{type:ObjectId,ref:"User"}]
 });
 
 /**

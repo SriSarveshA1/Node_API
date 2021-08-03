@@ -59,3 +59,4 @@ exports.requireSignin = expressJwt({
      //below code is step 2 of authorization of a particular user based on the user id
     userProperty: "auth"//this is a property that says the user is authenticated already and this is an property now
 });
+    

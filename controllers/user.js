@@ -6,7 +6,11 @@ const fs = require("fs");
 exports.userById = (req, res, next, id) => {
     //Here we are finding the user with respect to the id that we got from the request url
     //And while executing the retrival part of the userInfo based on id ..and the callback function will be containing the err , user object ..if the retrival is successful we get the user object or as a err.
-    User.findById(id).exec((err, user) => {
+    User.findById(id)
+         //populate the following and followers users array
+        .populate('following','_id name')
+        .populate('followers','_id name')
+        .exec((err, user) => {
         if (err || !user) {
             //if the user does not exist or if there is any error occured,
             return res.status(400).json({
