@@ -5,12 +5,17 @@ const {
     getUser,
     updateUser,
     userPhoto,
-    deleteUser
+    deleteUser,
+    addFollowing,
+    addFollower
 } = require("../controllers/user");
 
 const { requireSignin } = require("../controllers/auth");
 
 const router = express.Router();//express.Router() is a class and the variable router is an object that
+
+
+router.put("/user/follow",requireSignin,addFollowing,addFollower);//so both the methods will be called when a user try to follow
 
 router.get("/users", allUsers);
 router.get("/user/:userId", requireSignin, getUser);//to retrive a single user and send his profile as a response

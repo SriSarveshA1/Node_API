@@ -114,3 +114,39 @@ exports.deleteUser = (req, res, next) => {
         res.json({ message: "User deleted successfully" });
     });
 };
+
+//we are adding following list of an user
+exports.addFollowing = (req, res, next) => {
+                        //logged in userid                    //The id of the user which the loggedin user wants to follow
+    User.FindByIdAndUpdate(req.body.userId,{$push:{following:req.body.followId}},(err,result)=>{//the push is going to push the info of the id who wants to follow in the following array
+      //if error while perfomring follow  we need to respond with the status as 400
+      if(err){
+          return res.status(400).json({error: err});
+      }
+      next();
+    })
+}
+
+//we need to have a method for adding followers list to an user 
+exports.addFollower= (req, res)=>{
+ //for the userId that we want to follow we are adding the followers list as our userId when we follow that user
+                                                            //we want to be a follower of the followId user
+    User.FindByIdAndUpdate(req.body.followId,{$push:{followers:req.body.userId}},
+        {new:true} //we need to set this as true so that the mongodb returns the updated data of the followers list 
+    )
+    //so when a user click the follow addFollowing and addFollower both the methods are called and we need to populate the following,followers list and return the result(user object)
+    .populate("following","_id name")
+    .populate("followers","_id name")
+    .exec((err,result) => {
+        if(err){
+            return res.status(400).json({error:err});
+        }
+        result.hashed_password=undefined;
+        result.salt=undefined;
+        res.json(result);
+
+    })
+
+
+}
+
