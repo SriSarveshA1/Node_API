@@ -24,7 +24,8 @@ exports.postById = (req, res, next, id) => {
 exports.getPosts = (req, res) => {
     const posts = Post.find()
         .populate("postedBy", "_id name")
-        .select("_id title body")
+        .select("_id title body created")//so we need to return the created date as well 
+        .sort({created:-1}) //and while returning the posts we need to sort according to the latest posts 
         .then(posts => {
             res.json(posts);//returning as array in json
         })
