@@ -6,7 +6,8 @@ const {
     postById,
     isPoster,
     updatePost,
-    deletePost
+    deletePost,
+    photo   
 } = require("../controllers/post");
 const { requireSignin } = require("../controllers/auth");
 const { userById } = require("../controllers/user");
@@ -24,6 +25,9 @@ router.post(
 router.get("/posts/by/:userId", requireSignin, postsByUser);//this particular route can be accessed if and only if we have the required JWT that contains the secret key 
 router.put("/post/:postId", requireSignin, isPoster, updatePost);//so for the new update of the post with the given post id in the url we update the post and the authenticated user should be the same who created it
 router.delete("/post/:postId", requireSignin, isPoster, deletePost);//so here the user who is trying to delete the post should be logged in and should be the same person who created the post and then we call deletpost
+
+//to get the photo
+router.get("/post/photo/:postId",photo);//this is a route we creted to get the photo of the post and when that route is there we call the photo method
 
 // any route containing :userId, our app will first execute userById()
 router.param("userId", userById);

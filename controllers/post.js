@@ -125,3 +125,10 @@ exports.deletePost = (req, res) => {
         });
     });
 };
+
+exports.photo=(req,res,next)=>{
+    //so here we are going to send the image to the front end 
+    //and we set the content type from the request body that has the photo object attached in the front end that says what type of content is the photo
+    res.set('Content-Type',req.post.photo.contentType)
+    return res.send(req.post.photo.data);
+}
