@@ -95,7 +95,7 @@ exports.isPoster = (req, res, next) => {
     }
     next();//we are moving to next middleware
 };
-
+/*
 exports.updatePost = (req, res, next) => {
     let post = req.post;
     post = _.extend(post, req.body);//so we are mutating the current post with the req.body(new content)
@@ -110,7 +110,39 @@ exports.updatePost = (req, res, next) => {
         res.json(post);
     });
 };
+*/
 
+exports.updatePost=(req,res,next)=>{
+    let form=new formidable.IncomingForm();
+    form.keepExtensions=true;
+    form.parse(req,(err,fields,files)=>{//we parse the form data that takes the req data and in call back functions we are going to work with the fields and files
+        if(err)
+        {
+            return res.status(400).json({
+                error:"Photo could not be uploaded"
+            })
+        }
+        //save post
+        let post=req.post;//so when the url has the post id then params will catch and postById method will be invoked and req.profile will contain the post object
+        post=_.extend(post,fields);//so we are updating the data in the post object when we update the post
+        post.updated=Date.now();//storing the current date
+        if(files.photo)
+        {
+            //if there is a photo in the files is true we put it in the post object
+            post.photo.data=fs.readFileSync(files.photo.path);
+            post.photo.contentType=files.photo.type;
+        }
+        post.save((err,result)=>{
+          if(err)
+          {
+              return res.status(400).json({
+                  error:err
+              })
+          }
+          res.json(post);
+        })
+    })  
+}
 exports.deletePost = (req, res) => {
     let post = req.post;//so when ever there is a postId parameter in the url then the postById method will be invoked and the post object will be appened to the req object
     post.remove((err, post) => {

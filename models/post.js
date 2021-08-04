@@ -21,6 +21,7 @@ const postSchema = new mongoose.Schema({
         type: ObjectId,//the post is posted by a user and a user is also mongoose schema that we define ,so we get the objectId from the mongoose schema mention that it is also typeo of schema we are talking about
         ref: "User"//we are refering to the User model
     },
+     updated: Date,
      //And also we need to keep track of the date that the post is created 
     created: {
         type: Date,
