@@ -135,5 +135,6 @@ exports.photo=(req,res,next)=>{
 
 exports.singlePost=(req,res)=>{
     //so when the url contains the postid then the postById method is invoked and in the req object the post for that id is added and we need to return that alone
+    
     return res.json(req.post);
 }
