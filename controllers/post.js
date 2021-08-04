@@ -132,3 +132,8 @@ exports.photo=(req,res,next)=>{
     res.set('Content-Type',req.post.photo.contentType)
     return res.send(req.post.photo.data);
 }
+
+exports.singlePost=(req,res)=>{
+    //so when the url contains the postid then the postById method is invoked and in the req object the post for that id is added and we need to return that alone
+    return res.json(req.post);
+}

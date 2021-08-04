@@ -7,7 +7,8 @@ const {
     isPoster,
     updatePost,
     deletePost,
-    photo   
+    photo,
+    singlePost
 } = require("../controllers/post");
 const { requireSignin } = require("../controllers/auth");
 const { userById } = require("../controllers/user");
@@ -23,6 +24,7 @@ router.post(
     createPostValidator
 );
 router.get("/posts/by/:userId", requireSignin, postsByUser);//this particular route can be accessed if and only if we have the required JWT that contains the secret key 
+router.get("/post/:postId",singlePost); //so when we are in this route we call the singlePost method
 router.put("/post/:postId", requireSignin, isPoster, updatePost);//so for the new update of the post with the given post id in the url we update the post and the authenticated user should be the same who created it
 router.delete("/post/:postId", requireSignin, isPoster, deletePost);//so here the user who is trying to delete the post should be logged in and should be the same person who created the post and then we call deletpost
 
