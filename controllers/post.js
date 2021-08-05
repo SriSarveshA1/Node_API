@@ -8,8 +8,10 @@ exports.postById = (req, res, next, id) => {
     Post.findById(id)
         .populate("postedBy", "_id name")
         //after doing the above methods this exec function will be executed
-        .populate('comments','text created')//we need to get the comments of text type
+        //.populate('comments','text created')//we need to get the comments of text type
         .populate('comments.postedBy','_id name')//and also we need to get the users _id name who posted the comment
+        .select("_id title body created likes comments photo")
+
         .exec((err, post) => {
             if (err || !post) {
                 return res.status(400).json({
