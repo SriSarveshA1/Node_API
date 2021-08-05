@@ -44,9 +44,8 @@ exports.userSignupValidator = (req, res, next) => {
     const errors = req.validationErrors();
     // if error show the first one as they happen
     if (errors) {
-        // errors will be like errors=[{name:"ssdsd",msg:"sdsd"},{name:"ssdsd",msg:"sdsd"},,]
-        const firstError = errors.map(error => error.msg)[0];//this map function will generally return an array .And we are taking only the [0]th error and taking --error.msg-- from the object and put it into the firstError variable.
-        return res.status(400).json({ error: firstError });//Here if there is a error then we are returning the firstError as a response in json format
+        const firstError = errors.map(error => error.msg)[0];
+        return res.status(400).json({ error: firstError });
     }
     // proceed to next middleware
     next();
