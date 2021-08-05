@@ -26,7 +26,9 @@ const postSchema = new mongoose.Schema({
     created: {
         type: Date,
         default: Date.now//when ever a post is created we are going to assign the current date as its default date value
-    }
+    },
+    likes:[{type:ObjectId,ref:"User"}]//this is an array of likes of various users 
+
 });
 
 module.exports = mongoose.model("Post", postSchema);

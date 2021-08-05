@@ -8,7 +8,9 @@ const {
     updatePost,
     deletePost,
     photo,
-    singlePost
+    singlePost,
+    like,
+    unlike
 } = require("../controllers/post");
 const { requireSignin } = require("../controllers/auth");
 const { userById } = require("../controllers/user");
@@ -16,7 +18,13 @@ const { createPostValidator } = require("../validator");
 
 const router = express.Router();//express.Router() is a class and the variable router is an object that
 
-router.get("/posts", getPosts);//this particular route can be accessed if and only if we have the required JWT that contains the secret key     
+router.get("/posts", getPosts);//this particular route can be accessed if and only if we have the required JWT that contains the secret key  
+
+//like 
+router.put('/post/like',requireSignin,like);
+//unlike
+router.put('/post/unlike',requireSignin,unlike);//when a user clik the liked post again then this will be called to unlike
+
 router.post(
     "/post/new/:userId",
     requireSignin,
@@ -30,6 +38,13 @@ router.delete("/post/:postId", requireSignin, isPoster, deletePost);//so here th
 
 //to get the photo
 router.get("/post/photo/:postId",photo);//this is a route we creted to get the photo of the post and when that route is there we call the photo method
+
+//like 
+router.put('/post/like',requireSignin,like);
+//unlike
+router.put('/post/unlike',requireSignin,unlike);//when a user clik the liked post again then this will be called to unlike
+
+
 
 // any route containing :userId, our app will first execute userById()
 router.param("userId", userById);

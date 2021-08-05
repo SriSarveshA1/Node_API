@@ -24,7 +24,7 @@ exports.postById = (req, res, next, id) => {
 exports.getPosts = (req, res) => {
     const posts = Post.find()
         .populate("postedBy", "_id name")
-        .select("_id title body created")//so we need to return the created date as well 
+        .select("_id title body created likes")//so we need to return the created date as well 
         .sort({created:-1}) //and while returning the posts we need to sort according to the latest posts 
         .then(posts => {
             res.json(posts);//returning as array in json
@@ -71,6 +71,7 @@ exports.createPost = (req, res, next) => {
 exports.postsByUser = (req, res) => {
     Post.find({ postedBy: req.profile._id })
         .populate("postedBy", "_id name")//we are going to put the user id and the name along with the posts that that particular user posted 
+        .select("_id title body created likes")//even while returning the posts of a single user we also send the likes along with it
         .sort("_created")
         //after executing all the abouve chain functions
         .exec((err, posts) => {
@@ -139,7 +140,8 @@ exports.updatePost=(req,res,next)=>{
                   error:err
               })
           }
-          res.json(post);
+         
+          res.json({result});
         })
     })  
 }
@@ -169,4 +171,32 @@ exports.singlePost=(req,res)=>{
     //so when the url contains the postid then the postById method is invoked and in the req object the post for that id is added and we need to return that alone
     
     return res.json(req.post);
+}
+
+exports.like=(req,res)=>{
+    //findByIdAndUpdate is a mongoose function that finds the document by id and update the content 
+    //when ever user makes a like then from the front end we need to send the post id along with the request and also the userId so we can easily find which user liked it
+    //we are going to push the userID to the likes in the array   
+                                                                       //while returning the post it will return the updated post
+    Post.findByIdAndUpdate(req.body.postId,{$push:{likes:req.body.userId}},{new:true})
+    .exec((err,result)=>{
+        if(err){
+            return res.status(400).json({error:err});
+        }
+        else{
+            res.json(result);
+        }
+    });
+}
+
+exports.unlike=(req,res)=>{               //remove it
+    Post.findByIdAndUpdate(req.body.postId,{$pull:{likes:req.body.userId}},{new:true})
+    .exec((err,result)=>{
+        if(err){
+            return res.status(400).json({error:err});
+        }
+        else{
+            res.json(result);
+        }
+    });
 }
