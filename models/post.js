@@ -27,7 +27,14 @@ const postSchema = new mongoose.Schema({
         type: Date,
         default: Date.now//when ever a post is created we are going to assign the current date as its default date value
     },
-    likes:[{type:ObjectId,ref:"User"}]//this is an array of likes of various users 
+    likes:[{type:ObjectId,ref:"User"}],//this is an array of likes of various users 
+    comments:[
+        {
+            text:String,
+            created:{type:Date,default:Date.now},//we display the created date 
+            postedBy:{type:ObjectId,ref:"User"}//we also show which user posted the comment
+        }
+    ]
 
 });
 

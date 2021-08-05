@@ -8,6 +8,8 @@ exports.postById = (req, res, next, id) => {
     Post.findById(id)
         .populate("postedBy", "_id name")
         //after doing the above methods this exec function will be executed
+        .populate('comments','text created')//we need to get the comments of text type
+        .populate('comments.postedBy','_id name')//and also we need to get the users _id name who posted the comment
         .exec((err, post) => {
             if (err || !post) {
                 return res.status(400).json({
@@ -24,6 +26,8 @@ exports.postById = (req, res, next, id) => {
 exports.getPosts = (req, res) => {
     const posts = Post.find()
         .populate("postedBy", "_id name")
+        .populate('comments','text created')//we need to get the comments of text type
+        .populate('comments.postedBy','_id name')//and also we need to get the users _id name who posted the comment
         .select("_id title body created likes")//so we need to return the created date as well 
         .sort({created:-1}) //and while returning the posts we need to sort according to the latest posts 
         .then(posts => {
@@ -191,6 +195,41 @@ exports.like=(req,res)=>{
 
 exports.unlike=(req,res)=>{               //remove it
     Post.findByIdAndUpdate(req.body.postId,{$pull:{likes:req.body.userId}},{new:true})
+    .exec((err,result)=>{
+        if(err){
+            return res.status(400).json({error:err});
+        }
+        else{
+            res.json(result);
+        }
+    });
+}
+
+exports.comment=(req,res)=>{
+    //so we create a comment object that gets the body and postedBy from the front end
+    let comment=req.body.comment;
+    comment.postedBy=req.body.postById;
+                                    //we are going to push comment into the comments array
+    Post.findByIdAndUpdate(req.body.postId,{$push:{comments:req.body.comment}},{new:true})
+    .populate('comment.postedBy','_id name')//we are going to populate the id and name from the postedBy(refers to User object)
+    .populate('postedBy','_id name')
+    .exec((err,result)=>{
+        if(err){
+            return res.status(400).json({error:err});
+        }
+        else{
+            res.json(result);
+        }
+    });
+}
+exports.uncomment=(req,res)=>{
+   
+    let comment=req.body.comment;
+    
+                                    //we are going to pull comment of the particular id from the comments array
+    Post.findByIdAndUpdate(req.body.postId,{$pull:{comments:comment._id}},{new:true})
+    .populate('comment.postedBy','_id name')//we are going to populate the id and name from the postedBy(refers to User object)
+    .populate('postedBy','_id name')
     .exec((err,result)=>{
         if(err){
             return res.status(400).json({error:err});

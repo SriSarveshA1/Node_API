@@ -10,7 +10,9 @@ const {
     photo,
     singlePost,
     like,
-    unlike
+    unlike,
+    comment,
+    uncomment
 } = require("../controllers/post");
 const { requireSignin } = require("../controllers/auth");
 const { userById } = require("../controllers/user");
@@ -24,6 +26,13 @@ router.get("/posts", getPosts);//this particular route can be accessed if and on
 router.put('/post/like',requireSignin,like);
 //unlike
 router.put('/post/unlike',requireSignin,unlike);//when a user clik the liked post again then this will be called to unlike
+
+//comment
+router.put('/post/comment',requireSignin,comment);
+//uncomment
+router.put('/post/comment',requireSignin,uncomment);
+
+
 
 router.post(
     "/post/new/:userId",
