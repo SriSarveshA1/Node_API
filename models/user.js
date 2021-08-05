@@ -32,6 +32,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         trim: true
     },
+    resetPasswordLink: {//this property in the schema will be used for reseting the password
+        data: String,
+        default: ""
+    },
     following: [{ type: ObjectId, ref: "User" }],
     followers: [{ type: ObjectId, ref: "User" }]
 });
