@@ -20,13 +20,17 @@ exports.userById = (req, res, next, id) => {
 };
 
 exports.hasAuthorization = (req, res, next) => {
-    const authorized =
-        req.profile && req.auth && req.profile._id === req.auth._id;
+    let sameuser= req.profile && req.auth && req.profile._id == req.auth._id;
+    let adminuser= req.profile && req.auth && req.auth.role ==="admin";
+    const authorized=sameuser||adminuser;
+       console.log("req.profile",req.profile,"req.auth=",req.auth);
+       console.log("SAMEUSER",sameuser,"adminuser",adminuser);
     if (!authorized) {
         return res.status(403).json({
             error: "User is not authorized to perform this action"
         });
     }
+    next();
 };
 
 exports.allUsers = (req, res) => {

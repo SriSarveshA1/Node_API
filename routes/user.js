@@ -10,6 +10,7 @@ const {
     addFollower,
     removeFollowing,
     removeFollower,
+    hasAuthorization,//we want only the authorized user who created the user can only edit the user profile
     findPeople
 } = require("../controllers/user");
 const { requireSignin } = require("../controllers/auth");
@@ -21,7 +22,11 @@ router.put("/user/unfollow", requireSignin, removeFollowing, removeFollower);
 
 router.get("/users", allUsers);
 router.get("/user/:userId", requireSignin, getUser);
-router.put("/user/:userId", requireSignin, updateUser);
+//update
+router.put("/user/:userId", requireSignin,hasAuthorization, updateUser);
+//delete
+router.delete("/user/:userId", requireSignin, hasAuthorization,deleteUser);
+
 // photo
 router.get("/user/photo/:userId", userPhoto);
 
