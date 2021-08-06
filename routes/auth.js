@@ -1,10 +1,11 @@
 const express = require("express");
-const { signup, signin, signout,forgotPassword, resetPassword } = require("../controllers/auth");
+const { signup, signin, signout,forgotPassword, resetPassword ,socialLogin} = require("../controllers/auth");
 const { userById } = require("../controllers/user");
 const { userSignupValidator ,passwordResetValidator } = require("../validator");
 
 const router = express.Router();
 // password forgot and reset routes
+router.post("/social-login", socialLogin); //we will create a new user and perform login
 router.put("/forgot-password", forgotPassword);
 router.put("/reset-password", passwordResetValidator, resetPassword);
 
