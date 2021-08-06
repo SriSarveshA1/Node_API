@@ -7,7 +7,7 @@ exports.postById = (req, res, next, id) => {
     Post.findById(id)
         .populate("postedBy", "_id name")
         .populate("comments.postedBy", "_id name")
-        .populate("postedBy", "_id name")
+        .populate("postedBy", "_id name role")
         .exec((err, post) => {
             if (err || !post) {
                 return res.status(400).json({
@@ -78,9 +78,12 @@ exports.postsByUser = (req, res) => {
 };
 
 exports.isPoster = (req, res, next) => {
-    let isPoster =
-        req.post && req.auth && req.post.postedBy._id == req.auth._id;
-
+    let sameuser=req.post && req.auth && req.post.postedBy._id == req.auth._id;
+    let adminuser=req.post && req.auth && req.auth.role ==="admin";//so if the requested user has a role of admin then we allow him to edit the post
+    console.log("req.auth.role= ",req.auth.role);
+    let isPoster =sameuser||adminuser;//so to edit a post the user has to be an admin or the one who created it
+    
+    console.log(isPoster);
     if (!isPoster) {
         return res.status(403).json({
             error: "User is not authorized"

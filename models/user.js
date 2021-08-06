@@ -37,7 +37,11 @@ const userSchema = new mongoose.Schema({
         default: ""
     },
     following: [{ type: ObjectId, ref: "User" }],
-    followers: [{ type: ObjectId, ref: "User" }]
+    followers: [{ type: ObjectId, ref: "User" }],
+    role:{//a user with admin role can edit the post of another person and also delete that user
+        type:String,
+        default:"subscriber"//so every user who sign in to our application can get this subscriber role
+    }
 });
 
 /**
