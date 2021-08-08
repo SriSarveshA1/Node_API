@@ -61,6 +61,7 @@ exports.signout = (req, res) => {
 exports.requireSignin = expressJwt({
     secret: process.env.JWT_SECRET, //if the token(which is made up of user id and the secret key) sended by the user is matched with the secret present then the user is verified and that time the jwtExpress appends the auth to the request object
     //below code is step 2 of authorization of a particular user based on the user id
+    algorithms: ['HS256'],
     userProperty: "auth"//this is a property that says the user is authenticated already and this is an property now
 });
 
