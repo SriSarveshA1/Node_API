@@ -20,7 +20,7 @@ const { createPostValidator } = require("../validator");
 
 const router = express.Router();
 
-router.get("/posts", getPosts);
+router.get("/posts", getPosts);//this particular route can be accessed if and only if we have the required JWT that contains the secret key 
 
 // like unlike
 router.put("/post/like", requireSignin, like);
@@ -40,7 +40,7 @@ router.post(
 router.get("/posts/by/:userId", requireSignin, postsByUser);
 router.get("/post/:postId", singlePost);
 router.put("/post/:postId", requireSignin, isPoster, updatePost);
-router.delete("/post/:postId", requireSignin, isPoster, deletePost);
+router.delete("/post/:postId", requireSignin, isPoster, deletePost);//so here the user who is trying to delete the post should be logged in and should be the same person who created the post and then we call deletpost 
 // photo
 router.get("/post/photo/:postId", photo);
 

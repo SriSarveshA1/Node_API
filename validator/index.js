@@ -50,6 +50,7 @@ exports.userSignupValidator = (req, res, next) => {
     // proceed to next middleware
     next();
 };
+
 exports.passwordResetValidator = (req, res, next) => {
     // check for password
     req.check("newPassword", "Password is required").notEmpty();
@@ -59,7 +60,7 @@ exports.passwordResetValidator = (req, res, next) => {
         .matches(/\d/)
         .withMessage("must contain a number")
         .withMessage("Password must contain a number");
- 
+
     // check for errors
     const errors = req.validationErrors();
     // if error show the first one as they happen
